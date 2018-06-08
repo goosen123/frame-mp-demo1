@@ -664,6 +664,13 @@
 			<version>5.1.2</version> <!-- 5.1.2 -->
 		</dependency>
 		
+		<!-- beetl -->
+		<dependency>
+	        <groupId>com.ibeetl</groupId>
+	        <artifactId>beetl</artifactId>
+	        <version>2.7.15</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

@@ -45,4 +45,12 @@ public class UserController extends BaseController {
 		return "modules/test/success";
 	}
 	
+	@RequestMapping(value = {"loginhtml"})
+	public String loginhtml(HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		log.info("进来了<<<<<<<<<<<<<<<<<<<<");
+		
+		return "login";
+	}
+	
 }
