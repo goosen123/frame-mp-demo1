@@ -53,4 +53,12 @@ public class UserController extends BaseController {
 		return "login";
 	}
 	
+	@RequestMapping(value = {"hello"})
+	public String hello(HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		log.info("进来了beetl的hello<<<<<<<<<<<<<<<<<<<<");
+		
+		return "/user/hello.btl";
+	}
+	
 }
