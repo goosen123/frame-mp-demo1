@@ -81,7 +81,7 @@
 		 <property name="viewNames" >
 		 	<list>
 		 		<value>/user/**</value>
-		 		<!-- <value>/admin/**</value> -->
+		 		<value>/admin/**</value> 
 		 	</list>
 		 </property>
 	</bean>
