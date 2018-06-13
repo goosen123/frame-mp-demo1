@@ -78,12 +78,12 @@
 		 <property name="config" ref="beetlConfig"/>
 		 <property name="contentType" value="text/html;charset=UTF-8"/>
 		 <property name="order" value="0"/>
-		 <property name="viewNames" >
+		 <!-- <property name="viewNames" >
 		 	<list>
 		 		<value>/user/**</value>
 		 		<value>/admin/**</value> 
 		 	</list>
-		 </property>
+		 </property> -->
 	</bean>
 	
 	<!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
