@@ -41,11 +41,11 @@
 	<!-- 拦截器 -->
 	<mvc:interceptors>
          <mvc:interceptor>
-             <!-- 拦截所有URL中包含/**的请求 -->
+            <!--  拦截所有URL中包含/**的请求 -->
              <mvc:mapping path="/**"/>
              <bean class="com.goosen1.interceptor.ResponseResultInterceptor"></bean>
          </mvc:interceptor>
-     </mvc:interceptors>
+     </mvc:interceptors> 
 	
     <!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
@@ -65,12 +65,13 @@
 	</bean> -->
 	<!-- beetl配置 -->
 	<bean id="beetlConfig" class="org.beetl.ext.spring.BeetlGroupUtilConfiguration" init-method="init">
-		<!-- <property name="configFileResource" value="classpath:properties/beetl.properties"/> -->
-		<property name="configFileResource" value="classpath:application.properties"/>
+		<property name="configFileResource" value="classpath:properties/beetl.properties"/> 
+		<!-- <property name="configFileResource" value="classpath:application.properties"/> -->
 	</bean>
 	<!-- beetl视图解析器 -->
 	<bean id="viewResolver" class="org.beetl.ext.spring.BeetlSpringViewResolver">
 		 <property name="config" ref="beetlConfig"/>
+		 <property name="suffix" value=".html"/>
 		 <property name="contentType" value="text/html;charset=UTF-8"/>
 		 <property name="order" value="0"/>
 		 <!-- <property name="viewNames" >

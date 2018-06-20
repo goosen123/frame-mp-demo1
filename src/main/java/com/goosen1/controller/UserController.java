@@ -49,6 +49,8 @@ public class UserController extends BaseController {
 	public String loginhtml(HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		log.info("进来了<<<<<<<<<<<<<<<<<<<<");
+		model.addAttribute("ctxPath","/frame-mp-demo1");
+		model.addAttribute("name","Goosen1");
 		
 		return "login";
 	}
@@ -58,7 +60,26 @@ public class UserController extends BaseController {
 		
 		log.info("进来了beetl的hello<<<<<<<<<<<<<<<<<<<<");
 		
-		return "/user/hello.btl";
+		return "/user/hello";
+	}
+	
+	@RequestMapping(value = {"hello2"})
+	public String hello2(HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		log.info("进来了beetl的hello2<<<<<<<<<<<<<<<<<<<<");
+		model.addAttribute("name","Goosen1");
+		
+		model.addAttribute("ifflag","1");
+		
+		return "/user/hello";
+	}
+	
+	@RequestMapping(value = {"index"})
+	public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		log.info("进来了beetl的index<<<<<<<<<<<<<<<<<<<<");
+		
+		return "index";
 	}
 	
 }
