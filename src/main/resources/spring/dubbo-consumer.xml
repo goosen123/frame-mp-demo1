@@ -15,4 +15,6 @@
      <!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
      <dubbo:reference  id="userService" interface="com.goosen1.service.UserService" check="false"/>
      
+     <dubbo:reference  id="dictService" interface="com.goosen1.service.DictService" check="false"/>
+     
     </beans>

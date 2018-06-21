@@ -82,4 +82,20 @@ public class UserController extends BaseController {
 		return "index";
 	}
 	
+	@RequestMapping(value = {"addDict"})
+	public String addDict(HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		log.info("进来了beetl的addDict<<<<<<<<<<<<<<<<<<<<");
+		
+		return "/system/dict/dict_add";
+	}
+	
+	@RequestMapping(value = {"dict"})
+	public String dict(HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		log.info("进来了beetl的dict<<<<<<<<<<<<<<<<<<<<");
+		
+		return "/system/dict/dict";
+	}
+	
 }
