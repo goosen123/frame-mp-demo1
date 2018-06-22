@@ -10,7 +10,7 @@
         this.btInstance = null;					//jquery和BootStrapTable绑定的对象
         this.bstableId = bstableId;
         this.url = Feng.ctxPath + url;
-        this.method = "post";
+        this.method = "get";//post
         this.paginationType = "server";			//默认分页方式是服务器分页,可选项"client"
         this.toolbarId = bstableId + "Toolbar";
         this.columns = columns;

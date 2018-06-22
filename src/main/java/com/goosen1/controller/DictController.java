@@ -2,6 +2,17 @@ package com.goosen1.controller;
 
 import com.goosen1.commons.annotations.GetMapping;
 import com.goosen1.commons.annotations.ResponseResult;
+import com.goosen1.commons.enums.ResultCode;
+import com.goosen1.commons.exception.BusinessException;
+import com.goosen1.commons.model.commons.ParameterInvalidItem;
+import com.goosen1.commons.model.po.dict.Dict;
+import com.goosen1.commons.model.po.dict.DictList;
+import com.goosen1.commons.model.response.BaseCudRespData;
+import com.goosen1.commons.model.response.BaseListRespData;
+import com.goosen1.commons.model.response.BasePageRespData;
+import com.goosen1.commons.model.response.user.UserList1;
+import com.goosen1.commons.utils.CheckUtil;
+import com.goosen1.commons.utils.IdGenUtil;
 import com.goosen1.service.DictService;
 import com.goosen1.service.UserService;
 //import com.stylefeng.guns.common.annotion.Permission;
@@ -21,6 +32,13 @@ import com.goosen1.service.UserService;
 
 
 
+
+
+
+
+
+
+import com.goosen1.utils.MutiStrFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,27 +109,65 @@ public class DictController extends BaseController {
      * @param dictValues 格式例如   "1:启用;2:禁用;3:冻结"
      */
 //    @BussinessLog(value = "添加字典记录", key = "dictName,dictValues", dict = com.stylefeng.guns.common.constant.Dict.DictMap)
-    @RequestMapping(value = "/add")
+//    @RequestMapping(value = "/add")
 //    @Permission(Const.ADMIN_NAME)
     @ResponseBody
-//    @ResponseResult
-//	@RequestMapping(value = {"addUser4"},method=RequestMethod.POST)
-//	@Transactional(readOnly = false)
-    public Object add(String dictName, String dictValues) {
+    @ResponseResult
+	@RequestMapping(value = {"add"},method=RequestMethod.POST)
+	@Transactional(readOnly = false)
+    public BaseCudRespData<String> add(String dictName, String dictValues) {//Object
 //        if (ToolUtil.isOneEmpty(dictName, dictValues)) {
 //            throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
 //        }
 //        dictService.addDict(dictName, dictValues);
     	
-    	System.out.println("dictName:"+dictName);
-    	System.out.println("dictValues:"+dictValues);
+    	//手动检验
+    	CheckUtil.notEmpty(dictName, "dictName", "参数不能空");
+    	CheckUtil.notEmpty(dictValues, "dictValues", "参数不能空");
+    	
+    	//检查字典是否存在
+    	List<DictList> listDict = dictService.findAllDictList(null, "71de7eb7a00a4401b972bbfcfc52c560", dictName);
+    	if(listDict != null && listDict.size() > 0)
+    		throw new BusinessException(ResultCode.DATA_ALREADY_EXISTED);
+    	
+    	//解析dictValues
+        List<Map<String, String>> items = MutiStrFactory.parseKeyValue(dictValues);
+    	
+    	//添加字典
+    	Dict dict = new Dict();
+    	dict.setId(IdGenUtil.uuid());
+    	dict.setName(dictName);
+        dict.setNum(0);
+        dict.setStatus("1");
+    	//固定pid为71de7eb7a00a4401b972bbfcfc52c560
+    	dict.setPid("71de7eb7a00a4401b972bbfcfc52c560");
+    	dictService.insert(dict);
+    	
+    	//添加字典条目
+    	for (Map<String, String> item : items) {
+            String num = item.get(MutiStrFactory.MUTI_STR_KEY);
+            String name = item.get(MutiStrFactory.MUTI_STR_VALUE);
+            Dict itemDict = new Dict();
+            itemDict.setId(IdGenUtil.uuid());
+            itemDict.setPid(dict.getId());
+            itemDict.setName(name);
+            itemDict.setNum(Integer.valueOf(num));
+            itemDict.setStatus("1");
+            dictService.insert(itemDict);
+        }
+    	
+//    	System.out.println("dictName:"+dictName);
+//    	System.out.println("dictValues:"+dictValues);
     	//dictName:订单状态
     	//dictValues:1:未付款;2:待发货;
     	
-    	Map result = new HashMap();
-    	result.put("code", 200);
-    	result.put("message", "操作成功");
-        return result;
+//    	Map result = new HashMap();
+//    	result.put("code", 200);
+//    	result.put("message", "操作成功");
+//        return result;
+    	BaseCudRespData<String> baseIdRespData = new BaseCudRespData<String>();
+		baseIdRespData.setId(dict.getId());
+		return baseIdRespData;
     }
 
     /**
@@ -119,13 +175,18 @@ public class DictController extends BaseController {
      */
 //    @RequestMapping(value = "/list")
 //    @Permission(Const.ADMIN_NAME)
-//    @ResponseBody
+    @ResponseBody
+//    @ResponseResult
     @GetMapping
 	@RequestMapping(value = {"list"},method=RequestMethod.GET)
-    public Object list() {
+    public Object list() {//BaseListRespData<DictList>
 //        List<Map<String, Object>> list = dictMapper.list(condition);
 //        return super.warpObject(new DictWarpper(list));
-    	return new ArrayList<Map<String, Object>>();
+    	List<DictList> dictList = dictService.findAllDictList(null,"71de7eb7a00a4401b972bbfcfc52c560",null);
+//		BaseListRespData<DictList> baseListRespData = new BaseListRespData<DictList>();
+//		baseListRespData.setList(dictList);
+//        return baseListRespData;
+    	return dictList;
     }
 
 //    /**

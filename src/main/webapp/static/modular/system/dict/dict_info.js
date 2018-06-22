@@ -78,11 +78,18 @@ DictInfoDlg.addSubmit = function () {
     this.collectData();
     //提交信息
     var ajax = new $ax(Feng.ctxPath + "/dict/add", function (data) {
-        Feng.success("添加成功!");
-        window.parent.Dict.table.refresh();
-        DictInfoDlg.close();
+    	//alert(data.code);
+    	var code = data.code;
+    	if(code == 1){
+    		Feng.success("添加成功!");
+            window.parent.Dict.table.refresh();
+            DictInfoDlg.close();
+    	}else{
+    		Feng.error("添加失败!" + data.message + "!");
+    	}
     }, function (data) {
-        Feng.error("添加失败!" + data.responseJSON.message + "!");
+    	//alert(data);
+        Feng.error("添加失败!" + data.message + "!");
     });
     ajax.set('dictName',this.dictName);
     ajax.set('dictValues',this.mutiString);
